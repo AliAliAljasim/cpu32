@@ -1,0 +1,13 @@
+# Quartus build files
+db/
+incremental_db/
+output_files/
+
+# ModelSim
+work/
+vsim.wlf
+transcript
+
+# OS files
+.DS_Store
+Thumbs.db
