@@ -1,0 +1,474 @@
+========================================
+CPU32 TEST PROGRAM COLLECTION
+========================================
+In run_cpu.do, change the line run 50ns to given length for Complete Results
+
+1. ALU + Logic Test (Length: 125ns)
+Checks:
+- ADDI
+- ADD
+- SUB
+- AND
+- OR
+- XOR
+- SLT
+
+Expected Results:
+x1 = 12
+x2 = 7
+x3 = 19
+x4 = 5
+x5 = 4
+x6 = 15
+x7 = 11
+x8 = 0
+x9 = 1
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h00C00093;  // ADDI x1, x0, 12
+    memory[1] = 32'h00700113;  // ADDI x2, x0, 7
+
+    memory[2] = 32'h002081B3;  // ADD x3, x1, x2
+    memory[3] = 32'h40208233;  // SUB x4, x1, x2
+
+    memory[4] = 32'h0020F2B3;  // AND x5, x1, x2
+    memory[5] = 32'h0020E333;  // OR  x6, x1, x2
+    memory[6] = 32'h0020C3B3;  // XOR x7, x1, x2
+
+    memory[7] = 32'h0020A433;  // SLT x8, x1, x2
+    memory[8] = 32'h001124B3;  // SLT x9, x2, x1
+
+    memory[9]  = 32'h00000013; // NOP
+    memory[10] = 32'h00000013; // NOP
+
+end
+
+
+========================================
+
+
+2. Shift + Signed Number Test (Length: 105ns)
+Checks:
+- SLLI
+- SRLI
+- SRAI
+- negative immediates
+- arithmetic shifts
+
+Expected Results:
+x1 = 8
+x2 = -4
+x3 = 32
+x4 = 4
+x5 = -2
+x6 = 4
+x7 = 1
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h00800093;  // ADDI x1, x0, 8
+    memory[1] = 32'hFFC00113;  // ADDI x2, x0, -4
+
+    memory[2] = 32'h00209193;  // SLLI x3, x1, 2
+    memory[3] = 32'h0010D213;  // SRLI x4, x1, 1
+
+    memory[4] = 32'h40115293;  // SRAI x5, x2, 1
+
+    memory[5] = 32'h00110333;  // ADD x6, x2, x1
+
+    memory[6] = 32'h001123B3;  // SLT x7, x2, x1
+
+    memory[7] = 32'h00000013; // NOP
+    memory[8] = 32'h00000013; // NOP
+
+end
+
+
+========================================
+
+
+3. Data Dependency Chain Test (Length: 115ns)
+Checks:
+- register forwarding behavior
+- chained arithmetic
+- sequential ALU correctness
+
+Expected Results:
+x1 = 3
+x2 = 4
+x3 = 7
+x4 = 10
+x5 = 14
+x6 = 11
+x7 = 15
+x8 = 14
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h00300093;  // ADDI x1, x0, 3
+    memory[1] = 32'h00400113;  // ADDI x2, x0, 4
+
+    memory[2] = 32'h002081B3;  // ADD x3, x1, x2
+
+    memory[3] = 32'h00118233;  // ADD x4, x3, x1
+
+    memory[4] = 32'h002202B3;  // ADD x5, x4, x2
+
+    memory[5] = 32'h40128333;  // SUB x6, x5, x1
+
+    memory[6] = 32'h002343B3;  // XOR x7, x6, x2
+
+    memory[7] = 32'h0053F433;  // AND x8, x7, x5
+
+    memory[8] = 32'h00000013;  // NOP
+    memory[9] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+
+
+4. Branch Loop Test (Length: 130ns)
+Checks:
+- branch unit
+- PC update
+- loop behavior
+- conditional execution
+
+Expected Results:
+x1 = 0, 3, 2, 1, 0
+x2 = 0, 3, 5, 6
+
+Program calculates:
+3 + 2 + 1 = 6
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h00300093;  // ADDI x1, x0, 3
+    memory[1] = 32'h00000113;  // ADDI x2, x0, 0
+
+    memory[2] = 32'h00110133;  // ADD x2, x2, x1
+
+    memory[3] = 32'hFFF08093;  // ADDI x1, x1, -1
+
+    memory[4] = 32'hFE009CE3;  // BNE x1, x0, -8
+
+    memory[5] = 32'h00000013;  // NOP
+    memory[6] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+
+
+5. Basic Arithmetic Stress Test (Length: 105ns)
+Good for early CPUs that only support:
+- ADDI
+- ADD
+- SUB
+
+Expected Results:
+x1 = 5
+x2 = 10
+x3 = 15
+x4 = 10
+x5 = 20
+x6 = 25
+x7 = 15
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h00500093;  // ADDI x1, x0, 5
+    memory[1] = 32'h00A00113;  // ADDI x2, x0, 10
+
+    memory[2] = 32'h002081B3;  // ADD x3, x1, x2
+
+    memory[3] = 32'h40118233;  // SUB x4, x3, x1
+
+    memory[4] = 32'h002202B3;  // ADD x5, x4, x2
+
+    memory[5] = 32'h00128333;  // ADD x6, x5, x1
+
+    memory[6] = 32'h402303B3;  // SUB x7, x6, x2
+
+    memory[7] = 32'h00000013;  // NOP
+    memory[8] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+
+
+6. Load / Store (LW + SW) Test (Length: 90ns)
+Checks:
+- SW (store word to data memory)
+- LW (load word from data memory)
+- I-type and S-type immediate generation
+- mem_read / mem_write / mem_to_reg control signals
+- writeback from data memory
+
+Expected Results:
+x1 = 42
+x5 = 4  (base address)
+x2 = 84 (42 loaded from memory, then added to x1=42 to confirm load was correct)
+mem[4] = 42
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h02A00093;  // ADDI x1, x0, 42   -- x1 = 42
+    memory[1] = 32'h00400293;  // ADDI x5, x0, 4    -- x5 = 4 (base addr)
+
+    memory[2] = 32'h0012A023;  // SW x1, 0(x5)      -- mem[4] = 42
+    memory[3] = 32'h0002A103;  // LW x2, 0(x5)      -- x2 = mem[4] = 42
+
+    memory[4] = 32'h00208133;  // ADD x2, x1, x2    -- x2 = 42+42 = 84 (verify load)
+
+    memory[5] = 32'h00000013;  // NOP
+    memory[6] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+
+
+7. LUI / AUIPC Test (Length: 70ns)
+Checks:
+- LUI  (load upper immediate into register)
+- AUIPC (add upper immediate to PC)
+- U-type immediate encoding
+
+Expected Results:
+x1 = 0x00001000  (LUI x1, 1)
+x2 = 0x00002000  (LUI x2, 2)
+x3 = 8           (AUIPC x3, 0 at PC=8 -> 8 + 0 = 8)
+x4 = 0x0000100C  (AUIPC x4, 1 at PC=12 -> 12 + 0x1000 = 0x100C)
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h000010B7;  // LUI x1, 1       -- x1 = 0x00001000
+    memory[1] = 32'h00002137;  // LUI x2, 2       -- x2 = 0x00002000
+
+    memory[2] = 32'h00000197;  // AUIPC x3, 0     -- x3 = PC+0 = 8
+    memory[3] = 32'h00001217;  // AUIPC x4, 1     -- x4 = PC+0x1000 = 0x100C
+
+    memory[4] = 32'h00000013;  // NOP
+    memory[5] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+
+
+8. JAL / JALR Test (Length: 100ns)
+Checks:
+- JAL  (unconditional jump, saves return address)
+- JALR (indirect jump via register, saves return address)
+- J-type and I-type immediate generation for jumps
+- PC+4 writeback to link register
+
+Expected Results:
+x1 = 8    (JAL at PC=4, saves PC+4=8)
+x2 = 100
+x3 = 42   (JAL jumps over two NOP-filler instructions to PC=16)
+x4 = 32
+x5 = 28   (JALR at PC=24, saves PC+4=28)
+x6 = 7    (JALR target = (x4+8)&~1 = (32+8)=40, lands at PC=40)
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h06400113;  // ADDI x2, x0, 100  -- x2 = 100
+
+    memory[1] = 32'h00C000EF;  // JAL x1, 12        -- x1 = 8, jump to addr 16
+
+    memory[2] = 32'h06300193;  // ADDI x3, x0, 99   -- skipped (JAL target is addr 16)
+    memory[3] = 32'h06300193;  // ADDI x3, x0, 99   -- skipped
+
+    memory[4] = 32'h02A00193;  // ADDI x3, x0, 42   -- x3 = 42   (JAL lands here, addr 16)
+    memory[5] = 32'h02000213;  // ADDI x4, x0, 32   -- x4 = 32
+
+    memory[6] = 32'h008202E7;  // JALR x5, x4, 8    -- x5 = 28, jump to (32+8)=40
+
+    memory[7] = 32'h06300313;  // ADDI x6, x0, 99   -- skipped (JALR target is addr 40)
+    memory[8] = 32'h06300313;  // ADDI x6, x0, 99   -- skipped
+    memory[9] = 32'h06300313;  // ADDI x6, x0, 99   -- skipped
+
+    memory[10] = 32'h00700313; // ADDI x6, x0, 7    -- x6 = 7   (JALR lands here, addr 40)
+
+    memory[11] = 32'h00000013; // NOP
+    memory[12] = 32'h00000013; // NOP
+
+end
+
+
+========================================
+
+
+9. Branch Conditions Test (Length: 140ns)
+Checks:
+- BLT  (branch if less than, signed)
+- BGE  (branch if greater or equal, signed)
+- BLTU (branch if less than, unsigned)
+- BGEU (branch if greater or equal, unsigned)
+- All branches use offset=12 (skip two filler instructions)
+
+Expected Results:
+x1 = 5
+x2 = 10
+x3 = -1  (0xFFFFFFFF, used to distinguish signed vs unsigned)
+x4 = 1   (BLT  taken: 5 < 10 signed)
+x5 = 2   (BGE  taken: 10 >= 5 signed)
+x6 = 3   (BLTU taken: 5 < 10 unsigned)
+x7 = 4   (BGEU taken: 10 >= 5 unsigned)
+
+Code:
+
+initial begin
+
+    memory[0]  = 32'h00500093;  // ADDI x1, x0, 5
+    memory[1]  = 32'h00A00113;  // ADDI x2, x0, 10
+    memory[2]  = 32'hFFF00193;  // ADDI x3, x0, -1   -- 0xFFFFFFFF
+
+    memory[3]  = 32'h0020C663;  // BLT  x1, x2, 12   -- 5 < 10 signed -> take (jump to addr 24)
+    memory[4]  = 32'h06300213;  // ADDI x4, x0, 99   -- skipped
+    memory[5]  = 32'h06300213;  // ADDI x4, x0, 99   -- skipped
+    memory[6]  = 32'h00100213;  // ADDI x4, x0, 1    -- x4 = 1  (BLT lands here)
+
+    memory[7]  = 32'h00115663;  // BGE  x2, x1, 12   -- 10 >= 5 signed -> take (jump to addr 40)
+    memory[8]  = 32'h06300293;  // ADDI x5, x0, 99   -- skipped
+    memory[9]  = 32'h06300293;  // ADDI x5, x0, 99   -- skipped
+    memory[10] = 32'h00200293;  // ADDI x5, x0, 2    -- x5 = 2  (BGE lands here)
+
+    memory[11] = 32'h0020E663;  // BLTU x1, x2, 12   -- 5 < 10 unsigned -> take (jump to addr 56)
+    memory[12] = 32'h06300313;  // ADDI x6, x0, 99   -- skipped
+    memory[13] = 32'h06300313;  // ADDI x6, x0, 99   -- skipped
+    memory[14] = 32'h00300313;  // ADDI x6, x0, 3    -- x6 = 3  (BLTU lands here)
+
+    memory[15] = 32'h00117663;  // BGEU x2, x1, 12   -- 10 >= 5 unsigned -> take (jump to addr 72)
+    memory[16] = 32'h06300393;  // ADDI x7, x0, 99   -- skipped
+    memory[17] = 32'h06300393;  // ADDI x7, x0, 99   -- skipped
+    memory[18] = 32'h00400393;  // ADDI x7, x0, 4    -- x7 = 4  (BGEU lands here)
+
+    memory[19] = 32'h00000013;  // NOP
+    memory[20] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+
+
+10. Byte / Halfword Load and Store Test (Length: 150ns)
+Checks:
+- SB  (store byte)
+- LB  (load byte, sign-extend)
+- LBU (load byte, zero-extend)
+- SH  (store halfword)
+- LH  (load halfword, sign-extend)
+- LHU (load halfword, zero-extend)
+- Byte offset within word address
+
+Expected Results:
+x1  = 0x5A  = 90        (positive byte value)
+x2  = 4                 (base address)
+x3  = 0x5A  = 90        (LB  sign-extend of 0x5A: MSB=0, stays positive)
+x4  = 0x5A  = 90        (LBU zero-extend of 0x5A)
+x5  = -100  = 0xFFFFFF9C (negative byte source; stored as 0x9C)
+x6  = 0xFFFFFF9C = -100 (LB  sign-extend of 0x9C: MSB=1, negative)
+x7  = 0x9C  = 156       (LBU zero-extend of 0x9C)
+x8  = 0x7B  = 123       (halfword value)
+x9  = 0x7B  = 123       (LH  sign-extend of 0x007B: MSB=0, stays positive)
+x10 = 0x7B  = 123       (LHU zero-extend of 0x007B)
+
+Code:
+
+initial begin
+
+    memory[0]  = 32'h05A00093;  // ADDI x1, x0, 0x5A   -- x1 = 90
+    memory[1]  = 32'h00400113;  // ADDI x2, x0, 4      -- x2 = 4 (base addr)
+
+    memory[2]  = 32'h00110023;  // SB x1, 0(x2)        -- mem[4][7:0]  = 0x5A
+    memory[3]  = 32'h00010183;  // LB x3, 0(x2)        -- x3 = sign_ext(0x5A) = 0x5A
+    memory[4]  = 32'h00014203;  // LBU x4, 0(x2)       -- x4 = zero_ext(0x5A) = 0x5A
+
+    memory[5]  = 32'hF9C00293;  // ADDI x5, x0, -100   -- x5 = 0xFFFFFF9C
+    memory[6]  = 32'h005100A3;  // SB x5, 1(x2)        -- mem[4][15:8] = 0x9C
+    memory[7]  = 32'h00110303;  // LB x6, 1(x2)        -- x6 = sign_ext(0x9C) = 0xFFFFFF9C
+    memory[8]  = 32'h00114383;  // LBU x7, 1(x2)       -- x7 = zero_ext(0x9C) = 0x9C
+
+    memory[9]  = 32'h07B00413;  // ADDI x8, x0, 0x7B   -- x8 = 123
+    memory[10] = 32'h00811423;  // SH x8, 8(x2)        -- mem[12][15:0] = 0x007B
+    memory[11] = 32'h00811483;  // LH x9, 8(x2)        -- x9  = sign_ext(0x007B) = 0x7B
+    memory[12] = 32'h00815503;  // LHU x10, 8(x2)      -- x10 = zero_ext(0x007B) = 0x7B
+
+    memory[13] = 32'h00000013;  // NOP
+    memory[14] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+
+
+11. SLTU / SLTIU Test (Length: 100ns)
+Checks:
+- SLT  (set less than, signed)
+- SLTU (set less than, unsigned)
+- SLTI (set less than immediate, signed)
+- SLTIU (set less than immediate, unsigned)
+- Signed vs unsigned comparison with 0xFFFFFFFF (-1 signed, max unsigned)
+
+Expected Results:
+x1 = 5
+x2 = -1  (0xFFFFFFFF)
+x3 = 0   (SLT  x1, x2: 5 < -1 signed?   NO  -> 0)
+x4 = 1   (SLTU x1, x2: 5 < 0xFFFFFFFF?  YES -> 1)
+x5 = 1   (SLTI x2, 0:  -1 < 0 signed?   YES -> 1)
+x6 = 0   (SLTIU x2, 1: 0xFFFFFFFF < 1?  NO  -> 0)
+x7 = 0   (SLTU x2, x1: 0xFFFFFFFF < 5?  NO  -> 0)
+
+Code:
+
+initial begin
+
+    memory[0] = 32'h00500093;  // ADDI x1, x0, 5
+    memory[1] = 32'hFFF00113;  // ADDI x2, x0, -1    -- x2 = 0xFFFFFFFF
+
+    memory[2] = 32'h002081B3;  // SLT  x3, x1, x2    -- 5 < -1 signed?   NO  -> x3 = 0
+    memory[3] = 32'h0020B233;  // SLTU x4, x1, x2    -- 5 < 0xFFFFFFFF?  YES -> x4 = 1
+
+    memory[4] = 32'h00012293;  // SLTI  x5, x2, 0    -- -1 < 0 signed?   YES -> x5 = 1
+    memory[5] = 32'h00113313;  // SLTIU x6, x2, 1    -- 0xFFFFFFFF < 1?  NO  -> x6 = 0
+
+    memory[6] = 32'h001133B3;  // SLTU x7, x2, x1    -- 0xFFFFFFFF < 5?  NO  -> x7 = 0
+
+    memory[7] = 32'h00000013;  // NOP
+    memory[8] = 32'h00000013;  // NOP
+
+end
+
+
+========================================
+END OF TEST COLLECTION
+========================================

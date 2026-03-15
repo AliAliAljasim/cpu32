@@ -1,0 +1,31 @@
+module datapath(
+    input wire clk,
+    input wire reset
+);
+
+// Program counter wire
+wire [31:0] pc_value;
+
+// ALU wires
+wire [31:0] alu_result;
+wire zero;
+
+// Dummy register wires (temporary)
+wire [31:0] reg_a;
+wire [31:0] reg_b;
+
+// Instantiate Program Counter
+pc program_counter(
+    .clk(clk),
+    .reset(reset),
+    .pc(pc_value)
+);
+
+// Instantiate Register File
+regfile registers(
+    .clk(clk),
+    .we(1'b0),          // disable writes for now
+    .rs1(5'b00000),
+    .rs2(5'b00001),
+    .rd(5'b00000),
+    .wri

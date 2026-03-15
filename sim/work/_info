@@ -1,0 +1,250 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/alial/fgpa-board/sim
+valu
+Z1 !s110 1773594940
+!i10b 1
+!s100 Xk>OWS1<^^[MW=]^^L3S^2
+I2h<M^^IZNlDOVig`Dkj]d3
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1773594303
+8../rtl/alu.v
+F../rtl/alu.v
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z4 !s108 1773594940.000000
+Z5 !s107 ../rtl/regfile.v|../rtl/pc.v|../rtl/mux2.v|../rtl/instr_mem.v|../rtl/imm_gen.v|../rtl/datapath.v|../rtl/data_mem.v|../rtl/cpu32.v|../rtl/control.v|../rtl/branch_unit.v|../rtl/alu.v|
+Z6 !s90 -reportprogress|300|../rtl/alu.v|../rtl/branch_unit.v|../rtl/control.v|../rtl/cpu32.v|../rtl/data_mem.v|../rtl/datapath.v|../rtl/imm_gen.v|../rtl/instr_mem.v|../rtl/mux2.v|../rtl/pc.v|../rtl/regfile.v|
+!i113 1
+Z7 tCvgOpt 0
+vbranch_unit
+R1
+!i10b 1
+!s100 1nf<NKJXobedBZ]LKUIDi2
+IKM]92ezLIoWz`D`ca;igV3
+R2
+R0
+w1773594316
+8../rtl/branch_unit.v
+F../rtl/branch_unit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vcontrol
+R1
+!i10b 1
+!s100 ^3=2KJm0Mn_Kd`@b8^aeL0
+I[BThRgHT_5=9g1SAPVDCU0
+R2
+R0
+w1773594370
+8../rtl/control.v
+F../rtl/control.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vcpu32
+R1
+!i10b 1
+!s100 R8F_X_]?>?S>KendX3niQ1
+ILAgMCjL_`1CTRN?e7kZH:0
+R2
+R0
+w1773594415
+8../rtl/cpu32.v
+F../rtl/cpu32.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vcpu32_tb
+R1
+!i10b 1
+!s100 jFlTQadhjEj15R[a4=IWo2
+IX:<jinUmPz_L5SRR65?^P3
+R2
+R0
+w1773587168
+8cpu32_tb.v
+Fcpu32_tb.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 cpu32_tb.v|
+!s90 -reportprogress|300|cpu32_tb.v|
+!i113 1
+R7
+vdata_mem
+R1
+!i10b 1
+!s100 LZf;:Kba<b@klZFj3@V8L2
+IlPnh7CR`CmR]ncSzFNmF@1
+R2
+R0
+w1773594350
+8../rtl/data_mem.v
+F../rtl/data_mem.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vdatapath
+R1
+!i10b 1
+!s100 9F8R9;HFSYfhCI1@nd_K`2
+ICN7JC8SibR45GPd`e2X4G1
+R2
+R0
+w1773594403
+8../rtl/datapath.v
+F../rtl/datapath.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vimm_gen
+R1
+!i10b 1
+!s100 mV9@?o`38Oh@N3l2KmXXH0
+IhI^X66Q^zUC81K5Nm>=?d2
+R2
+R0
+w1773594331
+8../rtl/imm_gen.v
+F../rtl/imm_gen.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vinstr_mem
+R1
+!i10b 1
+!s100 V``?Flh^bMBAg3;@MQ`TI2
+I5o4:Ne7lBF9zDRjkYC0ii3
+R2
+R0
+w1773594437
+8../rtl/instr_mem.v
+F../rtl/instr_mem.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vmux2
+R1
+!i10b 1
+!s100 c391EePITWL_QiGn_>FSH3
+IL3d3kc;m_UNQGM@AKc;3H3
+R2
+R0
+w1773525597
+8../rtl/mux2.v
+F../rtl/mux2.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vpc
+R1
+!i10b 1
+!s100 IFfBc_a0=HcLhg`TYBMmh1
+Ig5?8:hI?JDLF`<l??16M=3
+R2
+R0
+w1773594380
+8../rtl/pc.v
+F../rtl/pc.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
+vregfile
+R1
+!i10b 1
+!s100 Eej0X^Cj50DzRP2Udm7Vd0
+I204`mzGIMFZLE622<XING2
+R2
+R0
+w1773588590
+8../rtl/regfile.v
+F../rtl/regfile.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+R7
