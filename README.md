@@ -8,34 +8,6 @@ This project demonstrates how a processor datapath, control unit, ALU, register 
 
 ---
 
-## Project Structure
-
-FPGA-BOARD/
-│
-├── rtl/                 # Verilog source files
-│   ├── cpu32.v
-│   ├── datapath.v
-│   ├── control.v
-│   ├── pc.v
-│   ├── alu.v
-│   ├── regfile.v
-│   ├── imm_gen.v
-│   ├── mux2.v
-│   ├── instr_mem.v
-│   ├── data_mem.v
-│   └── branch_unit.v
-│
-├── sim/                 # Simulation files
-│   ├── cpu32_tb.v
-│   ├── run_cpu.do
-│   └── work/
-│
-├── docs/                # Documentation and diagrams
-│
-└── quartus/             # Quartus FPGA project files
-
----
-
 ## CPU Architecture
 
 Main components:
